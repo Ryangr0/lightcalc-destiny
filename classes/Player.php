@@ -19,7 +19,7 @@
 	    protected function getCharacters()
 	    {
 	        $url = 'http://bungie.net/Platform/Destiny/' . $this->membershipType . '/Account/' . $this->membershipId;
-			$r = json_decode(file_get_contents($url));
+			$r = json_decode(getData($url));
 			
 	        if (count($r->Response->data->characters) < 1) {
 		        return false;

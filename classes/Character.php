@@ -58,7 +58,7 @@
 	    {
 		    
 			$url = 'http://bungie.net/Platform/Destiny/' . $cid . '/Account/' . $mt . '/Character/' . $mid . '/Inventory?definitions=true';
-			$r = json_decode(file_get_contents('http://bungie.net/Platform/Destiny/' . $mt . '/Account/' . $mid . '/Character/' . $cid . '/Inventory?definitions=true'));
+			$r = json_decode(getData('http://bungie.net/Platform/Destiny/' . $mt . '/Account/' . $mid . '/Character/' . $cid . '/Inventory?definitions=true'));
 			
 	        $e = $r->Response->data->buckets->Equippable;
 			$d = $r->Response->definitions;
