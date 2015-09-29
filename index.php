@@ -7,20 +7,42 @@
 
 		<!-- Optional theme -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-		<link href="style.css" rel="stylesheet">
+		<link href="css/style.css" rel="stylesheet">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-		<script src="app.js"></script>
+		<script src="js/app.js"></script>
 	</head>
 	<body>
 		<div class="container">
 			<div class="page-header">
-				<h1>Destiny Light Level Calculator</h1>
+				<h1>Destiny Light Level and Infusion Calculator</h1>
 			</div>
 			<div class="row">
 				<div class="col-md-12">
+					<p class="lead">I decided to add the infusion calculator back in!</p>
 					<p class="lead">Select your platform, enter your gamertag, and wait for the system to load your characters. Simply click on one of your characters to load all of your <strong>equipped</strong> weapons into the text boxes below. Once loaded, you can change numbers to see how your light level will change with the new numbers. I'm currently working to figure on getting all of your inventory in here so you can choose from this site.</p>
+					<p class="lead">Do you like data? Check out the analytics site I made for this app <a href="http://mattaltepeter.com/destiny/analytics">here</a></p>
+				</div>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-md-12"><p class="lead">Equation: ((higher - lower) * 80%) + lower --- (rounded up; if difference is less than 7, the result is the higher value gear)</p></div>
+				<div class="col-md-4">
+					<label>Lower Gear</label>
+					<input type="text" name="lower" id="lower">
+				</div>
+				
+				<div class="col-md-4">
+					<label>Higher Gear</label>
+					<input type="text" name="higher" id="higher">
+					<button class="btn btn-default btn-sm" id="infusebtn">Calculate</button>
+					<p class="text-muted">(or hit enter)</p>
+				</div>
+				
+				<div class="col-md-4">
+					<label>Infusion Result</label>
+					<h3 id="infuser" style="margin: 0;">--</h3>
 				</div>
 			</div>
 			<hr>
@@ -41,7 +63,7 @@
 					</div>
 				</div>
 				<div class="col-md-4">
-					<label>Gamertag</label><br />
+					<label>Gamertag</label>
 					<input type="text" id="gt"> <button class="btn btn-default btn-sm" id="search">Search</button>
 					<p class="text-muted">(or hit enter)</p>
 					<br />
@@ -52,9 +74,11 @@
 					</div>
 				</div>
 			</div>
-			
+			<div class="row" id="charload" style="display: none;"><div class="col-md-12"><h3 class="text-center">Loading...</h3></div></div>
 			<div class="row" id="lightCalc">
+				
 				<div class="col-md-12"><h3>Light Level <small id="sel-class"></small></h3><hr></div>
+				<div class="col-md-12"><p class="lead">Equation: 12% * <i>primary</i> + 12% * <i>secondary</i> + 12% * <i>heavy</i> + 10% * <i>helmet</i> + 10% * <i>gaunlets</i> + 10% * <i>chest</i> + 10% * <i>legs</i> + 8% * <i>ghost</i> + 8% * <i>class</i> + 8% * <i>artifact</i></p></div>
 				<div class="col-md-4">
 					<div class="row">
 						<div class="col-md-12">
@@ -224,8 +248,9 @@
 			</div>
 			<hr>
 			<div class="row">
-				<div class="col-md-12"><p class="text-center">Developed by <a href="http://mattaltepeter.com">Matt Altepeter</a></p></div>
+				<div class="col-md-12"><p class="text-center">Developed by <a href="http://mattaltepeter.com">Matt Altepeter</a> | Add me on Xbox One: <a href="https://account.xbox.com/en-US/Profile?xr=mebarnav" target="_blank">COUGAR CHAS3R</a> | My characters: 304 Hunter, 300 Warlock, 298 Titan</p></div>
 			</div>
 		</div>
+		<script src="js/ga.js"></script>
 	</body>
 </html>

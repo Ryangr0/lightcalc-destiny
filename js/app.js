@@ -1,8 +1,9 @@
 $(function() {
 		$('[data-toggle="tooltip"]').tooltip();
-		$.post('analytic.php?r=p');
 		
-		var mid, mtype;
+		$.post('controls/post.php?type=0');
+		
+		var mid, mtype, gt, acct;
 		var $primary = $('#primary');
 		var $secondary = $('#secondary');
 		var $heavy = $('#heavy');
@@ -14,6 +15,49 @@ $(function() {
 		var $class = $('#class');
 		var $artifact = $('#artifact');
 		var $r = $('#r');
+		
+		$('#infusebtn').click(function() {
+			infuse();
+		});
+		
+		$('#higher, #lower').bind('keyup', function(e) {
+			if (e.keyCode == 13 || e.keyCode == 10 ) {
+				infuse();
+			}
+		});
+		
+		function infuse() {
+			$.post('controls/post.php?type=4');
+			var l = parseInt($('#lower').val());
+			var h = parseInt($('#higher').val());
+			var diff, ir;
+			$ir = $('#infuser');
+			
+			if ( h < l ) {
+				$ir.text('Higher gear value must be higher than the lower gear value');
+				return false;
+			}
+				
+			if ( l > 0 && h > 0 ) {
+				diff = h - l;
+				
+				ir = Math.ceil((diff * .8) + l);
+				
+				if ( diff < 7 ) {
+					ir = h;
+				}
+				$ir.text(ir);
+			}
+			else {
+				$ir.text('Please fill out both fields');
+			}
+		}
+		
+		$('input[type=radio]').change(function() {
+			 $('#lightCalc').hide();
+			 $('#chars').html('');
+			 $('#gt').val('');
+		});
 		
 		$('#primary, #secondary, #heavy, #ghost, #helmet, #gauntlets, #legs, #chest, #class, #artifact').change(function() {
 			$(this).parent().find('.weaponName').text('');
@@ -34,6 +78,8 @@ $(function() {
 		});
 		
 		function light(primary, secondary, heavy, ghost, helmet, gauntlets, legs, chest, cls, artifact) {
+			$.post('controls/post.php?type=3', { 'acct': acct, 'gt':gt});
+			
 			var vars = [primary, secondary, heavy, ghost, helmet, gauntlets, legs, chest, cls, artifact];
 			pos = true;
 			
@@ -60,17 +106,19 @@ $(function() {
 		}
 		
 		$(document).on('click', '.character', function() {
+			$('#lightCalc').hide();
+			$('#charload').show();
+			$.post('controls/post.php?type=2', { 'acct' : acct, 'gt' : gt});
 			$r.html($(this).attr('data-ll'));
 			$('#sel-class').text($(this).attr('data-cls'));
 			$('.character.selected').removeClass('selected');
 			$(this).addClass('selected');
 			var cid = $(this).attr('data-id');
 			
-			$.post('request.php?r=inv', { 'cid' : cid, 'mid' : mid, 'mtype' : mtype}, function(response) {
-				console.log(response);
+			$.post('controls/request.php?r=inv', { 'cid' : cid, 'mid' : mid, 'mtype' : mtype}, function(response) {
+				$('#charload').hide();
 				var d = JSON.parse(response);
 				$.each(d, function(i) {
-					console.log(this.icon);
 					var itemImg = 'http://bungie.net' + this.icon;
 					$('#lightCalc img').eq(i).attr('src', itemImg);
 					$('#lightCalc img').eq(i).attr('title', this.name).tooltip('fixTitle');
@@ -81,20 +129,27 @@ $(function() {
 		});
 
 	$('#search').click(function() {
-		getChar();
-	});
-	
-	$('#gt').bind('keyup', function(e) {
-		if (e.keyCode == 13 || e.keyCode == 10 ) {
+		if ( gt !== $('#gt').val() ) {
 			getChar();
 		}
 	});
 	
+	$('#gt').bind('keyup', function(e) {
+		if ( gt !== $('#gt').val() ) {
+			if (e.keyCode == 13 || e.keyCode == 10 ) {
+				getChar();
+			}
+		}
+	});
+	
 	function getChar() {
+		$('#lightCalc').hide();
 		$('#chars').html('<h3 style="text-align:center">Loading...</h3>');
-		var gt = $('#gt').val();
-		var acct = $('input[name=acct]:checked').val();
-		$.post('request.php?r=search', { 'platform' : acct, 'gt' : encodeURIComponent(gt) }, function(response) {
+		gt = $('#gt').val();
+		acct = $('input[name=acct]:checked').val();
+		$.post('controls/post.php?type=1', { 'gt' : gt, 'acct' : acct});
+
+		$.post('controls/request.php?r=search', { 'platform' : acct, 'gt' : encodeURIComponent(gt) }, function(response) {
 			var d = JSON.parse(response);
 			if ( d.membershipId == null ) {
 				$('#chars').html('<h3 style="text-align:center">User not found!</h3>');
@@ -102,6 +157,7 @@ $(function() {
 			
 			else {
 				$('#chars').html('');
+				
 				mid = d.membershipId;
 				mtype = d.membershipType;
 				

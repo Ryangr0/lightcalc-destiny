@@ -1,5 +1,5 @@
 <?php	
-	require 'c/Destiny.php';
+	require '../classes/Destiny.php';
 	
 	if ( $_GET['r'] == 'search' ) {
 		$player = Destiny::getPlayer($_POST['gt'], $_POST['platform']);
