@@ -28,23 +28,51 @@
 			<hr>
 			<div class="row">
 				<div class="col-md-12"><p class="lead">Equation: ((higher - lower) * 80%) + lower --- (rounded up; if difference is less than 7, the result is the higher value gear)</p></div>
+				<div class="col-md-12"><h4>Simple Infusion</h4></div>
 				<div class="col-md-4">
 					<label>Lower Gear</label>
 					<input type="text" name="lower" id="lower">
 				</div>
-				
+
 				<div class="col-md-4">
 					<label>Higher Gear</label>
 					<input type="text" name="higher" id="higher">
 					<button class="btn btn-default btn-sm" id="infusebtn">Calculate</button>
 					<p class="text-muted">(or hit enter)</p>
 				</div>
-				
+
 				<div class="col-md-4">
 					<label>Infusion Result</label>
 					<h3 id="infuser" style="margin: 0;">--</h3>
 				</div>
+				<div class="col-md-12"><h4>Complex Infusion</h4></div>
+				<div class="col-md-4">
+					<label>Original Gear</label>
+					<input type="text" id="original-item" value="280" maxlength="3">
+				</div>
+				<div class="col-md-4">
+					<label>Fodder 1</label>
+					<input type="text" id="fodder1" value="283" maxlength="3"><br /><br />
+					<label>Fodder 2</label>
+					<input type="text" id="fodder2" value="285" maxlength="3"> <br /><br />
+					<label>Fodder 3</label>
+					<input type="text" id="fodder3" value="289" maxlength="3"> <br /><br />
+					<label>Fodder 4</label>
+					<input type="text" id="fodder4" value="291" maxlength="3"> <br /><br />
+					<label>Fodder 5</label>
+					<input type="text" id="fodder5" value="295" maxlength="3"> <br /><br />
+					<label>Fodder 6</label>
+					<input type="text" id="fodder6" value="297" maxlength="3"> <br /><br />
 			</div>
+			<div class="col-md-4">
+				<button class="btn btn-default btn-sm" id="complex">Calculate</button>
+				<h3 id="complexr"></h3>
+			</div>
+			<div class="col-md-12" id="res">
+
+			</div>
+
+		</div>
 			<hr>
 			<div class="row">
 				<div class="col-md-4">
@@ -76,7 +104,7 @@
 			</div>
 			<div class="row" id="charload" style="display: none;"><div class="col-md-12"><h3 class="text-center">Loading...</h3></div></div>
 			<div class="row" id="lightCalc">
-				
+
 				<div class="col-md-12"><h3>Light Level <small id="sel-class"></small></h3><hr></div>
 				<div class="col-md-12"><p class="lead">Equation: 12% * <i>primary</i> + 12% * <i>secondary</i> + 12% * <i>heavy</i> + 10% * <i>helmet</i> + 10% * <i>gaunlets</i> + 10% * <i>chest</i> + 10% * <i>legs</i> + 8% * <i>ghost</i> + 8% * <i>class</i> + 8% * <i>artifact</i></p></div>
 				<div class="col-md-4">
@@ -143,7 +171,7 @@
 							</div>
 						</div>
 					</div>
-					
+
 				</div>
 				<div class="col-md-4">
 					<h1 id="r">--</h1><br />
