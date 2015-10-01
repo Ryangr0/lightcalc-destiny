@@ -1,7 +1,7 @@
 $(function() {
 		$('[data-toggle="tooltip"]').tooltip();
 
-		//$.post('controls/post.php?type=0');
+		$.post('controls/post.php?type=0');
 
 		var mid, mtype, gt, acct;
 		var $primary = $('#primary');
@@ -31,6 +31,7 @@ $(function() {
 			$r.hide();
 			$sr.html('');
 			$tr.html('');
+
 			var orig = parseInt($('#original-item').val());
 			var f1 = parseInt($('#fodder1').val());
 			var f2 = parseInt($('#fodder2').val());
@@ -44,7 +45,8 @@ $(function() {
 			var removedIndex = 0;
 
 			if ( isNaN(orig) || orig <= 0 || orig > 310 ) {
-				$sr.html('Invalid original number (can not be less than 0 or greater than 310)');
+				$sr.html('<h3 style="color: red">Invalid original number (can not be less than 0 or greater than 310)</h3>');
+				$sr.show();
 				return false;
 			}
 
@@ -63,16 +65,12 @@ $(function() {
 				return false;
 			}
 
-			/*else if ( fLen == 1 ) {
-				$.post('controls/post.php?type=4');
-				$sr.html('<h3>' + inf(fodder[0], orig) + '</h3>');
-				$ir.show();
-				$sr.show();
-				return false;
-			}*/
-
 			else {
-				$.post('controls/post.php?type=6');
+				if ( fLen == 1 )
+					$.post('controls/post.php?type=4');
+				else
+					$.post('controls/post.php?type=6');
+
 				var sorted = fodder;
 				sorted.sort(function(a, b) { return a - b; });
 
@@ -242,7 +240,7 @@ $(function() {
 						r += "<td>--</td>";
 					}
 
-					r += "<td><strong>" + arr['result'] + "</strong> &plusmn; 1</td></tr>";
+					r += "<td><strong>" + arr['result'] + "</strong></td></tr>";
 					t += r;
 
 				}
@@ -254,10 +252,6 @@ $(function() {
 				$r.show();
 				$tr.show();
 			}
-		}
-
-		function getMaxOfArray(numArray) {
-			return Math.max.apply(null, numArray);
 		}
 
 		function inf(num1, num2) { //num1 higher num2 lower
