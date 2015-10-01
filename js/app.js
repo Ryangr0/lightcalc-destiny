@@ -64,21 +64,182 @@ $(function() {
 				$cr.html('Enter at least two pieces of fodder gear to use this');
 				return false;
 			}*/
+			var orig = 280;
+			var sorted = [283, 287, 289, 292, 293, 295];
 
-			for (var i = 1; i < 7; i++) {
-				//get sorted[i]->orig
-				for (var j = i; j < 7; j++) {
-					//get sorted[i]->sorted[j]->orig
-					for (var k = j+1; k < 7; k++) {
-						// sorted[i]->sorted[j]->sorted[k]->orig
-						for (var l = k+1; l < 7; l++) {
-							for (var m = l+1; m < 7; m++) {
-								console.log('i: ' + i + ' j: ' + j + ' k: ' + k + ' l: ' + l + ' m: ' + m);
+			var onestep = []; //[[original, sorted-index, result]]
+			var twostep = []; //[[onestep-index, sorted-index, result]]
+			var threestep = [];
+			var fourstep = [];
+			var fivestep = [];
+			var sixstep = 0;
+
+			var o = 1;
+
+			var oInd = 0;
+			var jInd = 0;
+			var kInd = 0;
+			var lInd = 0;
+			var mInd = 0;
+
+			for (var i = 0; i < sorted.length; i++) {
+				onestep[i] = [];
+				onestep[i][0] = sorted[i]; //item using to infuse
+				onestep[i]['result'] = inf(sorted[i], orig);
+
+				for ( var j = i+1; j < sorted.length; j++) {
+					twostep[jInd] = [];
+					twostep[jInd][0] = onestep[i][0];
+					twostep[jInd][1] = sorted[j];
+					twostep[jInd]['result'] = inf(sorted[j], onestep[i]['result']);
+
+					for (var k = j+1; k < sorted.length; k++) {
+						threestep[kInd] = [];
+						threestep[kInd][0] = onestep[i][0];
+						threestep[kInd][1] = twostep[jInd][1];
+						threestep[kInd][2] = sorted[k];
+						threestep[kInd]['result'] = inf(sorted[k], twostep[jInd]['result']);
+
+						for (var l = k+1; l < sorted.length; l++) {
+							fourstep[lInd] = [];
+							fourstep[lInd][0] = onestep[i][0];
+							fourstep[lInd][1] = twostep[jInd][1];
+							fourstep[lInd][2] = threestep[kInd][2];
+							fourstep[lInd][3] = sorted[l];
+							fourstep[lInd]['result'] = inf(sorted[l], threestep[kInd]['result']);
+
+							for (var m = l+1; m < sorted.length; m++) {
+								fivestep[mInd] = [];
+								fivestep[mInd][0] = onestep[i][0];
+								fivestep[mInd][1] = twostep[jInd][1];
+								fivestep[mInd][2] = threestep[kInd][2];
+								fivestep[mInd][3] = fourstep[lInd][3];
+								fivestep[mInd][4] = sorted[m];
+								fivestep[mInd]['result'] = inf(sorted[m], fourstep[lInd]['result']);
+
+								for (var n = m+1; n < sorted.length; n++) {
+									sixstep = inf(sorted[n], fivestep[mInd]['result']);
+								}
+								mInd++;
 							}
+							lInd++;
 						}
+						kInd++;
 					}
+					jInd++;
 				}
 			}
+
+			var max1arr = [];
+			var max2arr = [];
+			var max3arr = [];
+			var max4arr = [];
+			var max5arr = [];
+
+			var m1 = 0;
+			var m2 = 0;
+			var m3 = 0;
+			var m4 = 0;
+			var m5 = 0;
+
+			var m1i = 0;
+			var m2i = 0;
+			var m3i = 0;
+			var m4i = 0;
+			var m5i = 0;
+
+			$.each(onestep, function(i) {
+					if ( this['result'] > m1 ) {
+						m1 = this['result'];
+						m1i = i;
+					}
+			});
+
+			$.each(twostep, function(i) {
+					if ( this['result'] > m2 ) {
+						m2 = this['result'];
+						m2i = i;
+					}
+			});
+
+			$.each(threestep, function(i) {
+					if ( this['result'] > m3 ) {
+						m3 = this['result'];
+						m3i = i;
+					}
+			});
+
+			$.each(fourstep, function(i) {
+					if ( this['result'] > m4 ) {
+						m4 = this['result'];
+						m4i = i;
+					}
+			});
+
+			$.each(fivestep, function(i) {
+					if ( this['result'] > m5 ) {
+						m5 = this['result'];
+						m5i = i;
+					}
+			});
+
+			var ms = [m1, m2, m3, m4, m5, sixstep];
+			var mi = 0;
+			var am = 0;
+
+			$.each(ms, function(i) {
+				if (this > am) {
+					am = this;
+					mi = i;
+				}
+			});
+
+			var steps = [];
+			var html = "";
+			switch (mi) {
+				case 0: steps = "infuse a " + onestep[m1i][0] + " into your original " + orig + " item to reach " + onestep[m1i]['result']; break;
+				case 1: steps[0] = "Infuse the " + twostep[m2i][0] + " item into your original item";
+								steps[1] = "Next, use the " + twostep[m2i][1] + " for infusion into the result from step 1";
+								steps[2] = twostep[m2i]['result'];
+								html = "<ol>";
+								html += "<li>" + steps[0] + "</li>";
+								html += "<li>" + steps[1] + "</li>";
+								html += "</ol>";
+								html += "<h3 class='text-center'>Final value: " + steps[2] + "</h3>";
+								break;
+				case 2: steps = "infuse a " + threestep[m3i][0] + " and then a " + threestep[m3i][1] + " and finally a " + threestep[m3i][2] + " into your original " + orig + " item"; //threestep
+				case 4: //fourstep
+				case 5: //fivestep
+				case 6: //all 6
+			}
+
+			$('#res').append(html);
+			console.log(steps);
+			/*var maxes = [];
+			var oneMax = getMaxOfArray(onestep);
+			var twoMax = getMaxOfArray(twostep);
+			var threeMax = getMaxOfArray(threestep);
+			var fourMax = getMaxOfArray(fourstep);
+			var fiveMax = getMaxOfArray(fivestep);
+
+			maxes[0] = oneMax;
+			maxes[1]= twoMax;
+			maxes[2] = threeMax;
+			maxes[3] = fourMax;
+			maxes[4] = fiveMax;
+			maxes[5] = sixstep;
+
+			var allm = 0;
+			var mi = 0;
+
+			$.each(maxes, function(i) {
+				if ( this > allm ) {
+					allm = this;
+					mi = i;
+				}
+			});
+
+			console.log('max: ' + allm + ' mi: ' + mi);*/
 		}
 
 		function getMaxOfArray(numArray) {

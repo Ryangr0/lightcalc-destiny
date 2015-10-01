@@ -63,14 +63,17 @@
 					<input type="text" id="fodder5" value="295" maxlength="3"> <br /><br />
 					<label>Fodder 6</label>
 					<input type="text" id="fodder6" value="297" maxlength="3"> <br /><br />
+					<button class="btn btn-default btn-sm" id="complex">Calculate</button>
 			</div>
 			<div class="col-md-4">
-				<button class="btn btn-default btn-sm" id="complex">Calculate</button>
-				<h3 id="complexr"></h3>
-			</div>
-			<div class="col-md-12" id="res">
 
+				<div id="res" class="lead">
+					<div class="page-header" style="margin-top: 0">
+						<h3 style="margin-top: 0">Recommended Infusion Steps</h3>
+					</div>
+				</div>
 			</div>
+
 
 		</div>
 			<hr>
