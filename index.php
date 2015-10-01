@@ -27,57 +27,46 @@
 			</div>
 			<hr>
 			<div class="row">
-				<div class="col-md-12"><p class="lead">Equation: ((higher - lower) * 80%) + lower --- (rounded up; if difference is less than 7, the result is the higher value gear)</p></div>
-				<div class="col-md-12"><h4>Simple Infusion</h4></div>
-				<div class="col-md-4">
-					<label>Lower Gear</label>
-					<input type="text" name="lower" id="lower">
+				<div class="col-md-12"><h3 style="margin-top: 0;">Infusion</h3></div>
+				<div class="col-md-12"><p class="lead">This is the new and improved infusion calculator. In addition to calculating one infusion, you can enter up to 6 items to use as infusion fuel and it will figure out what the best path for you to infuse is (highest number, shortest amount of moves).</p>
+					<p class="lead">The numbers you enter as 'infusion fuel' must be higher than the original item you enter, as well as less than or equal to 310. Any numbers that do not meet this criteria will be removed from the calculation.</p><br />
 				</div>
+				<div class="col-md-3">
+					<label>Original Item</label>
+					<input type="text" id="original-item" value="280" maxlength="3"> <br /><br />
 
-				<div class="col-md-4">
-					<label>Higher Gear</label>
-					<input type="text" name="higher" id="higher">
-					<button class="btn btn-default btn-sm" id="infusebtn">Calculate</button>
-					<p class="text-muted">(or hit enter)</p>
-				</div>
-
-				<div class="col-md-4">
-					<label>Infusion Result</label>
-					<h3 id="infuser" style="margin: 0;">--</h3>
-				</div>
-				<div class="col-md-12"><h4>Complex Infusion</h4></div>
-				<div class="col-md-4">
-					<label>Original Gear</label>
-					<input type="text" id="original-item" value="280" maxlength="3">
-				</div>
-				<div class="col-md-4">
-					<label>Fodder 1</label>
-					<input type="text" id="fodder1" value="283" maxlength="3"><br /><br />
-					<label>Fodder 2</label>
-					<input type="text" id="fodder2" value="285" maxlength="3"> <br /><br />
-					<label>Fodder 3</label>
-					<input type="text" id="fodder3" value="289" maxlength="3"> <br /><br />
-					<label>Fodder 4</label>
-					<input type="text" id="fodder4" value="291" maxlength="3"> <br /><br />
-					<label>Fodder 5</label>
-					<input type="text" id="fodder5" value="295" maxlength="3"> <br /><br />
-					<label>Fodder 6</label>
-					<input type="text" id="fodder6" value="297" maxlength="3"> <br /><br />
+					<label>Infusion Fuel 1</label>
+					<input type="text" id="fodder1" value="" maxlength="3"><br /><br />
+					<label>Infusion Fuel 2</label>
+					<input type="text" id="fodder2" value="" maxlength="3"> <br /><br />
+					<label>Infusion Fuel 3</label>
+					<input type="text" id="fodder3" value="" maxlength="3"> <br /><br />
+					<label>Infusion Fuel 4</label>
+					<input type="text" id="fodder4" value="" maxlength="3"> <br /><br />
+					<label>Infusion Fuel 5</label>
+					<input type="text" id="fodder5" value="" maxlength="3"> <br /><br />
+					<label>Infusion Fuel 6</label>
+					<input type="text" id="fodder6" value="" maxlength="3"> <br /><br />
 					<button class="btn btn-default btn-sm" id="complex">Calculate</button>
 			</div>
-			<div class="col-md-4">
-
-				<div id="res" class="lead">
-					<div class="page-header" style="margin-top: 0">
-						<h3 style="margin-top: 0">Recommended Infusion Steps</h3>
-					</div>
+			<div class="col-md-9" id="infusionres">
+				<div class="page-header" style="margin-top: 0">
+					<h3 style="margin-top: 0">Infusion Results</h3>
 				</div>
+				<div id="res" class="lead">
+					<p class="lead">This table shows how to use the items you entered to achieve maximum level for your original gear. The value listed in each column (besides result) shows the value of the item you should use as infusion fuel next. The row highlighted in green shows the recommended infusion path (pretty much the highest number you can achieve in the fewest amount of moves possible) </p>
+					<p class="lead">To follow this table, infuse your original item with the item in 'step 1', if you wish to do more infusions, infuse the item in 'step 2' and so on, in to the result from the previous step.</p>
+					<p class="lead">This allows you to chose if doing an extra infusion is worth the extra cost (legendary marks, etc)</p>
+					<div id="table-res"></div>
+				</div>
+				<div id="simpleres"></div>
 			</div>
 
 
 		</div>
 			<hr>
 			<div class="row">
+				<div class="col-md-12"><h3 style="margin-top: 0;">Light Calculator</h3></div>
 				<div class="col-md-4">
 					<label>Platform</label>
 					<div class="radio">

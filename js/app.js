@@ -16,26 +16,22 @@ $(function() {
 		var $artifact = $('#artifact');
 		var $r = $('#r');
 
-		$cr = $('#complexr');
+		$ir = $("#infusionres");
+		$r = $('#res');
+		$sr = $('#simpleres');
+		$tr = $('#table-res');
 
-		$('#infusebtn').click(function() {
-			infuse();
-		});
-
-		$('#higher, #lower').bind('keyup', function(e) {
-			if (e.keyCode == 13 || e.keyCode == 10 ) {
-				infuse();
-			}
-		});
-		complexInfuse();
 		$('#complex').click(function() {
 			complexInfuse();
-		})
+		});
 
 		function complexInfuse() {
-			/*var result;
-
-			var original = parseInt($('#original-item').val());
+			$sr.hide();
+			$tr.hide();
+			$r.hide();
+			$sr.html('');
+			$tr.html('');
+			var orig = parseInt($('#original-item').val());
 			var f1 = parseInt($('#fodder1').val());
 			var f2 = parseInt($('#fodder2').val());
 			var f3 = parseInt($('#fodder3').val());
@@ -47,199 +43,217 @@ $(function() {
 			var numLength = 0;
 			var removedIndex = 0;
 
-			if ( isNaN(original) || original <= 0 || original > 310 ) {
-				$cr.html('Invalid original number (can not be less than 0 or greater than 310)');
+			if ( isNaN(orig) || orig <= 0 || orig > 310 ) {
+				$sr.html('Invalid original number (can not be less than 0 or greater than 310)');
 				return false;
 			}
 
 			for (var i = 0; i < fodder.length; i++) {
-				if ( isNaN(fodder[i]) || fodder[i] <= 0 || fodder[i] > 310 || fodder[i] <= original) {
+				if ( isNaN(fodder[i]) || fodder[i] <= 0 || fodder[i] > 310 || fodder[i] <= orig) {
 					fodder.splice(i, 1);
 					i--;
 				}
 			}
 
 			var fLen = fodder.length;
-			if ( fLen < 2) {
-				$cr.html('Enter at least two pieces of fodder gear to use this');
+
+			if ( fLen == 0 ) {
+				$sr.html('<h3 style="color: red"> Please enter number(s) to perform infusion!</h3>');
+				$sr.show();
+				return false;
+			}
+
+			/*else if ( fLen == 1 ) {
+				$.post('controls/post.php?type=4');
+				$sr.html('<h3>' + inf(fodder[0], orig) + '</h3>');
+				$ir.show();
+				$sr.show();
 				return false;
 			}*/
-			var orig = 280;
-			var sorted = [283, 287, 289, 292, 293, 295];
 
-			var onestep = []; //[[original, sorted-index, result]]
-			var twostep = []; //[[onestep-index, sorted-index, result]]
-			var threestep = [];
-			var fourstep = [];
-			var fivestep = [];
-			var sixstep = 0;
+			else {
+				$.post('controls/post.php?type=6');
+				var sorted = fodder;
+				sorted.sort(function(a, b) { return a - b; });
 
-			var o = 1;
+				var onestep = []; //[[original, sorted-index, result]]
+				var twostep = []; //[[onestep-index, sorted-index, result]]
+				var threestep = [];
+				var fourstep = [];
+				var fivestep = [];
+				var sixstep = 0;
 
-			var oInd = 0;
-			var jInd = 0;
-			var kInd = 0;
-			var lInd = 0;
-			var mInd = 0;
+				var oInd = 0;
+				var jInd = 0;
+				var kInd = 0;
+				var lInd = 0;
+				var mInd = 0;
 
-			for (var i = 0; i < sorted.length; i++) {
-				onestep[i] = [];
-				onestep[i][0] = sorted[i]; //item using to infuse
-				onestep[i]['result'] = inf(sorted[i], orig);
+				for (var i = 0; i < sorted.length; i++) {
+					onestep[i] = [];
+					onestep[i][0] = sorted[i]; //item using to infuse
+					onestep[i]['result'] = inf(sorted[i], orig);
 
-				for ( var j = i+1; j < sorted.length; j++) {
-					twostep[jInd] = [];
-					twostep[jInd][0] = onestep[i][0];
-					twostep[jInd][1] = sorted[j];
-					twostep[jInd]['result'] = inf(sorted[j], onestep[i]['result']);
+					for ( var j = i+1; j < sorted.length; j++) {
+						twostep[jInd] = [];
+						twostep[jInd][0] = onestep[i][0];
+						twostep[jInd][1] = sorted[j];
+						twostep[jInd]['result'] = inf(sorted[j], onestep[i]['result']);
 
-					for (var k = j+1; k < sorted.length; k++) {
-						threestep[kInd] = [];
-						threestep[kInd][0] = onestep[i][0];
-						threestep[kInd][1] = twostep[jInd][1];
-						threestep[kInd][2] = sorted[k];
-						threestep[kInd]['result'] = inf(sorted[k], twostep[jInd]['result']);
+						for (var k = j+1; k < sorted.length; k++) {
+							threestep[kInd] = [];
+							threestep[kInd][0] = onestep[i][0];
+							threestep[kInd][1] = twostep[jInd][1];
+							threestep[kInd][2] = sorted[k];
+							threestep[kInd]['result'] = inf(sorted[k], twostep[jInd]['result']);
 
-						for (var l = k+1; l < sorted.length; l++) {
-							fourstep[lInd] = [];
-							fourstep[lInd][0] = onestep[i][0];
-							fourstep[lInd][1] = twostep[jInd][1];
-							fourstep[lInd][2] = threestep[kInd][2];
-							fourstep[lInd][3] = sorted[l];
-							fourstep[lInd]['result'] = inf(sorted[l], threestep[kInd]['result']);
+							for (var l = k+1; l < sorted.length; l++) {
+								fourstep[lInd] = [];
+								fourstep[lInd][0] = onestep[i][0];
+								fourstep[lInd][1] = twostep[jInd][1];
+								fourstep[lInd][2] = threestep[kInd][2];
+								fourstep[lInd][3] = sorted[l];
+								fourstep[lInd]['result'] = inf(sorted[l], threestep[kInd]['result']);
 
-							for (var m = l+1; m < sorted.length; m++) {
-								fivestep[mInd] = [];
-								fivestep[mInd][0] = onestep[i][0];
-								fivestep[mInd][1] = twostep[jInd][1];
-								fivestep[mInd][2] = threestep[kInd][2];
-								fivestep[mInd][3] = fourstep[lInd][3];
-								fivestep[mInd][4] = sorted[m];
-								fivestep[mInd]['result'] = inf(sorted[m], fourstep[lInd]['result']);
+								for (var m = l+1; m < sorted.length; m++) {
+									fivestep[mInd] = [];
+									fivestep[mInd][0] = onestep[i][0];
+									fivestep[mInd][1] = twostep[jInd][1];
+									fivestep[mInd][2] = threestep[kInd][2];
+									fivestep[mInd][3] = fourstep[lInd][3];
+									fivestep[mInd][4] = sorted[m];
+									fivestep[mInd]['result'] = inf(sorted[m], fourstep[lInd]['result']);
 
-								for (var n = m+1; n < sorted.length; n++) {
-									sixstep = inf(sorted[n], fivestep[mInd]['result']);
+									for (var n = m+1; n < sorted.length; n++) {
+										sixstep = inf(sorted[n], fivestep[mInd]['result']);
+									}
+									mInd++;
 								}
-								mInd++;
+								lInd++;
 							}
-							lInd++;
+							kInd++;
 						}
-						kInd++;
+						jInd++;
 					}
-					jInd++;
 				}
+
+				var max1arr = [];
+				var max2arr = [];
+				var max3arr = [];
+				var max4arr = [];
+				var max5arr = [];
+
+				var m1 = 0;
+				var m2 = 0;
+				var m3 = 0;
+				var m4 = 0;
+				var m5 = 0;
+
+				var m1i = 0;
+				var m2i = 0;
+				var m3i = 0;
+				var m4i = 0;
+				var m5i = 0;
+
+				$.each(onestep, function(i) {
+						if ( this['result'] > m1 ) {
+							m1 = this['result'];
+							m1i = i;
+						}
+				});
+
+				$.each(twostep, function(i) {
+						if ( this['result'] > m2 ) {
+							m2 = this['result'];
+							m2i = i;
+						}
+				});
+
+				$.each(threestep, function(i) {
+						if ( this['result'] > m3 ) {
+							m3 = this['result'];
+							m3i = i;
+						}
+				});
+
+				$.each(fourstep, function(i) {
+						if ( this['result'] > m4 ) {
+							m4 = this['result'];
+							m4i = i;
+						}
+				});
+
+				$.each(fivestep, function(i) {
+						if ( this['result'] > m5 ) {
+							m5 = this['result'];
+							m5i = i;
+						}
+				});
+
+				var ms = [m1, m2, m3, m4, m5, sixstep];
+				var mi = 0;
+				var am = 0;
+
+				$.each(ms, function(i) {
+					if (this > am) {
+						am = this;
+						mi = i;
+					}
+				});
+
+				var numRows = 0;
+				var t = "<table class='table table-striped text-center'><thead><th class='text-center'># of Steps</th><th class='text-center'>Step 1</th><th class='text-center'>Step 2</th><th class='text-center'>Step 3</th><th class='text-center'>Step 4</th><th class='text-center'>Step 5</th><th class='text-center'>Final Value</th></thead><tbody>";
+
+				$.each(ms, function(i) {
+					if ( this != 0 )
+						numRows++;
+				});
+
+				for (var i = 0; i < numRows; i++) {
+					var r = '';
+					var arr;
+					var tdc = 0;
+					var t2q = false;
+					switch (i) {
+						case 0: arr = onestep[m1i]; tdc = 4; first = "<td>1 Step</td>"; index = m1i; maxi = 0; break;
+						case 1: arr = twostep[m2i]; tdc = 3; first = "<td>2 Steps</td>"; index = m2i; maxi = 1; break;
+						case 2: arr = threestep[m3i]; tdc = 2; first = "<td>3 Steps</td>"; index = m3i; maxi = 2; break;
+						case 3: arr = fourstep[m4i]; tdc = 1; first = "<td>4 Steps</td>"; index = m4i; maxi = 3; break;
+						case 4: arr = fivestep[m5i]; tdc = 0; first = "<td>5 Steps</td>"; index = m5i; maxi = 4; break;
+						case 5: t2q = true;
+					}
+
+					if ( t2q )
+						break;
+
+					if (i == mi) {
+						c = 'success';
+					}
+					else {
+						c = '';
+					}
+
+					r = "<tr class='" + c + "'>" + first;
+					for (var j = 0; j <= maxi; j++) {
+						r += "<td>" + arr[j] + "</td>";
+					}
+
+					for (var k = 0; k < tdc; k++) {
+						r += "<td>--</td>";
+					}
+
+					r += "<td><strong>" + arr['result'] + "</strong> &plusmn; 1</td></tr>";
+					t += r;
+
+				}
+
+				t += "</tbody></table>";
+
+				$tr.append(t);
+				$ir.show();
+				$r.show();
+				$tr.show();
 			}
-
-			var max1arr = [];
-			var max2arr = [];
-			var max3arr = [];
-			var max4arr = [];
-			var max5arr = [];
-
-			var m1 = 0;
-			var m2 = 0;
-			var m3 = 0;
-			var m4 = 0;
-			var m5 = 0;
-
-			var m1i = 0;
-			var m2i = 0;
-			var m3i = 0;
-			var m4i = 0;
-			var m5i = 0;
-
-			$.each(onestep, function(i) {
-					if ( this['result'] > m1 ) {
-						m1 = this['result'];
-						m1i = i;
-					}
-			});
-
-			$.each(twostep, function(i) {
-					if ( this['result'] > m2 ) {
-						m2 = this['result'];
-						m2i = i;
-					}
-			});
-
-			$.each(threestep, function(i) {
-					if ( this['result'] > m3 ) {
-						m3 = this['result'];
-						m3i = i;
-					}
-			});
-
-			$.each(fourstep, function(i) {
-					if ( this['result'] > m4 ) {
-						m4 = this['result'];
-						m4i = i;
-					}
-			});
-
-			$.each(fivestep, function(i) {
-					if ( this['result'] > m5 ) {
-						m5 = this['result'];
-						m5i = i;
-					}
-			});
-
-			var ms = [m1, m2, m3, m4, m5, sixstep];
-			var mi = 0;
-			var am = 0;
-
-			$.each(ms, function(i) {
-				if (this > am) {
-					am = this;
-					mi = i;
-				}
-			});
-
-			var steps = [];
-			var html = "";
-			switch (mi) {
-				case 0: steps = "infuse a " + onestep[m1i][0] + " into your original " + orig + " item to reach " + onestep[m1i]['result']; break;
-				case 1: steps[0] = "Infuse the " + twostep[m2i][0] + " item into your original item";
-								steps[1] = "Next, use the " + twostep[m2i][1] + " for infusion into the result from step 1";
-								steps[2] = twostep[m2i]['result'];
-								html = "<ol>";
-								html += "<li>" + steps[0] + "</li>";
-								html += "<li>" + steps[1] + "</li>";
-								html += "</ol>";
-								html += "<h3 class='text-center'>Final value: " + steps[2] + "</h3>";
-								break;
-				case 2: steps = "infuse a " + threestep[m3i][0] + " and then a " + threestep[m3i][1] + " and finally a " + threestep[m3i][2] + " into your original " + orig + " item"; //threestep
-				case 4: //fourstep
-				case 5: //fivestep
-				case 6: //all 6
-			}
-
-			$('#res').append(html);
-			console.log(steps);
-			/*var maxes = [];
-			var oneMax = getMaxOfArray(onestep);
-			var twoMax = getMaxOfArray(twostep);
-			var threeMax = getMaxOfArray(threestep);
-			var fourMax = getMaxOfArray(fourstep);
-			var fiveMax = getMaxOfArray(fivestep);
-
-			maxes[0] = oneMax;
-			maxes[1]= twoMax;
-			maxes[2] = threeMax;
-			maxes[3] = fourMax;
-			maxes[4] = fiveMax;
-			maxes[5] = sixstep;
-
-			var allm = 0;
-			var mi = 0;
-
-			$.each(maxes, function(i) {
-				if ( this > allm ) {
-					allm = this;
-					mi = i;
-				}
-			});
-
-			console.log('max: ' + allm + ' mi: ' + mi);*/
 		}
 
 		function getMaxOfArray(numArray) {
@@ -258,33 +272,6 @@ $(function() {
 			}
 
 			return r;
-		}
-
-		function infuse() {
-			$.post('controls/post.php?type=4');
-			var l = parseInt($('#lower').val());
-			var h = parseInt($('#higher').val());
-			var diff, ir;
-			$ir = $('#infuser');
-
-			if ( h < l ) {
-				$ir.text('Higher gear value must be higher than the lower gear value');
-				return false;
-			}
-
-			if ( l > 0 && h > 0 ) {
-				diff = h - l;
-
-				ir = Math.ceil((diff * .8) + l);
-
-				if ( diff < 7 ) {
-					ir = h;
-				}
-				$ir.text(ir);
-			}
-			else {
-				$ir.text('Please fill out both fields');
-			}
 		}
 
 		$('input[type=radio]').change(function() {
