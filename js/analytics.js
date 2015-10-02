@@ -69,31 +69,35 @@ $(function() {
 			var tu = data.t.ucount;
 			var ts = data.t.scount;
 			var tl = data.t.lcount;
+			var tmi = data.t.micount;
 			
 			var mv = data.m.vcount;
 			var mi = data.m.icount;
 			var mu = data.m.ucount;
 			var ms = data.m.scount;
 			var ml = data.m.lcount;
+			var mmi = data.m.micount;
 			
 			var wv = data.w.vcount;
 			var wi = data.w.icount;
 			var wu = data.w.ucount;
 			var ws = data.w.scount;
 			var wl = data.w.lcount;
+			var wmi = data.w.micount;
 			
 			var dv = data.d.vcount;
 			var di = data.d.icount;
 			var du = data.d.ucount;
 			var ds = data.d.scount;
 			var dl = data.d.lcount;
+			var dmi = data.d.micount;
 			
 			var options = {
 				multiTooltipTemplate: "<%= datasetLabel %>: <%= value %>",
 			};
 			
 			var data = {
-				labels: ["Views", "Infusion Calculations", "User Searches", "Character Selections", "Light Calculations"],
+				labels: ["Views", "Infusion Calculations", "Infusion Calculations (multiple items)", "User Searches", "Character Selections", "Light Calculations"],
 				datasets: [
 					{
 						label: "Today",
@@ -101,7 +105,7 @@ $(function() {
 						strokeColor: "rgba(255, 32, 82, 0.7)",
 						highlightFill: "rgba(255, 32, 82, 0.8)",
 						highlightStroke: "rgba(255, 32, 82, 0.8)",
-						data: [dv, di, du, ds, dl]
+						data: [dv, di, dmi, du, ds, dl]
 					},
 					{
 						label: "Past Week",
@@ -109,7 +113,7 @@ $(function() {
 						strokeColor: "rgba(100, 65, 165, 0.7)",
 						highlightFill: "rgba(100, 65, 165, 0.8)",
 						highlightStroke: "rgba(100, 65, 165, 0.8)",
-						data: [wv, wi, wu, ws, wl],
+						data: [wv, wi, wmi, wu, ws, wl],
 					},
 					{
 						label: "Past Month",
@@ -117,7 +121,7 @@ $(function() {
 						strokeColor: "rgba(1, 181, 221, 0.7)",
 						highlightFill: "rgba(1, 181, 221, 0.8)",
 						highlightStroke: "rgba(1, 181, 221, 0.8)",
-						data: [mv, mi, mu, ms, ml],
+						data: [mv, mi, mmi, mu, ms, ml],
 					},
 					{
 						label: "All Time",
@@ -125,7 +129,7 @@ $(function() {
 						strokeColor: "rgba(179, 219, 100, 0.7)",
 						highlightFill: "rgba(179, 219, 100, 0.8)",
 						highlightStroke: "rgba(179, 219, 100, 0.8)",
-						data: [tv, ti, tu, ts, tl],
+						data: [tv, ti, tmi, tu, ts, tl],
 					}
 				]
 			};

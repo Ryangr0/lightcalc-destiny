@@ -27,12 +27,15 @@
 			<div class="row">
 				<div class="col-md-12"><h3 style="margin-top: 0;">Infusion</h3></div>
 				<div class="col-md-12"><p class="lead">This is the new and improved infusion calculator. In addition to calculating one infusion, you can enter up to 6 items to use as infusion fuel and it will figure out what the best path for you to infuse is (highest number, shortest amount of moves).</p>
-					<p class="lead">The numbers you enter as 'infusion fuel' must have a value between the original item as well as be less than or equal to 310. Any numbers that do not meet this criteria will be removed from the calculation.</p><br />
+					<p class="lead">The numbers you enter as 'infusion fuel' must have a value between the original item as well as be less than or equal to 310. Any numbers that do not meet this criteria will be removed from the calculation.</p>
+					<p class="lead">According to people over <a target="_blank" href="https://www.reddit.com/r/DestinyTheGame/comments/3mtyr5/infusion_calculator/">here</a>, if the original weapon is exotic, you will only get 70% of the difference, so make sure to hit that checkbox if you are trying to use an exotic as your original weapon to get more accurate results.</p><br />
 				</div>
 				<div class="col-md-3">
 					<label>Original Item</label>
-					<input type="text" id="original-item" value="280" maxlength="3"> <br /><br />
-
+					<input type="text" id="original-item" maxlength="3"> <br />
+					<input type="checkbox" id="isExotic" value="1" /> <label for="isExotic" style="display: inline">Is this an exotic item?</label>
+					<br /><br />
+					
 					<label>Infusion Fuel 1</label>
 					<input type="text" id="fodder1" value="" maxlength="3"><br /><br />
 					<label>Infusion Fuel 2</label>
@@ -66,7 +69,7 @@
 			<div class="row">
 				<div class="col-md-12"><h3 style="margin-top: 0;">Light Calculator</h3></div>
 				<div class="col-md-12">
-				<p class="lead">Select your platform, enter your gamertag, and wait for the system to load your characters. Simply click on one of your characters to load all of your <strong>equipped</strong> weapons into the text boxes below. Once loaded, you can change numbers to see how your light level will change with the new numbers. I'm currently working to figure on getting all of your inventory in here so you can choose from this site.</p></div>
+				<p class="lead">Select your platform, enter your gamertag, and wait for the system to load your characters. Simply click on one of your characters to load all of your <strong>equipped</strong> weapons into the text boxes below. Once loaded, you can change numbers to see how your light level will change with the new numbers. </p></div>
 				<div class="col-md-4">
 					<label>Platform</label>
 					<div class="radio">
@@ -98,7 +101,6 @@
 			<div class="row" id="lightCalc">
 
 				<div class="col-md-12"><h3>Light Level <small id="sel-class"></small></h3><hr></div>
-				<div class="col-md-12"><p class="lead">Equation: 12% * <i>primary</i> + 12% * <i>secondary</i> + 12% * <i>heavy</i> + 10% * <i>helmet</i> + 10% * <i>gaunlets</i> + 10% * <i>chest</i> + 10% * <i>legs</i> + 8% * <i>ghost</i> + 8% * <i>class</i> + 8% * <i>artifact</i></p></div>
 				<div class="col-md-4">
 					<div class="row">
 						<div class="col-md-12">
@@ -166,7 +168,7 @@
 
 				</div>
 				<div class="col-md-4">
-					<h1 id="r">--</h1><br />
+					<h1 id="lightres">--</h1><br />
 				</div>
 				<div class="col-md-4">
 					<div class="row">

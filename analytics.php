@@ -70,7 +70,7 @@
 					<div class="page-header">
 						<h1>Analytics <?php if ( isset($_SESSION['logged_in']) ) { ?><a href="tabledata.php" class="btn btn-primary pull-right">View Table Data</a><?php } ?></h1>
 					</div>
-					<p class="lead">These are live analytics for <a href="http://mattaltepeter.com/destiny" target="_blank">http://mattaltepeter.com/destiny</a>. Views and infusions calculations can be done without having put in any previous information, so not data is tied to that.These numbers are not entirely accurate due to the following reasons:</p>
+					<p class="lead">These are live analytics for <a href="http://mattaltepeter.com/destiny" target="_blank">http://mattaltepeter.com/destiny</a>. Views and infusion calculations can be done without having put in any previous information, so no information is tied to those..These numbers are not entirely accurate due to the following reasons:</p>
 					<ul>
 						<li>I originally launched the calculator September 18th</li>
 						<li>I initially only tracked views up until September 24th, which is when I added the ability to track <i>what</i> people were doing on the site (user search, character select, etc)</li>
