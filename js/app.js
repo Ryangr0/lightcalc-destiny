@@ -14,18 +14,26 @@ $(function() {
 		var $legs = $('#legs');
 		var $class = $('#class');
 		var $artifact = $('#artifact');
-		var $r = $('#r');
+		var $lr = $('#lightres');
 
 		$ir = $("#infusionres");
 		$r = $('#res');
 		$sr = $('#simpleres');
 		$tr = $('#table-res');
-
+		
+		var $e = $('#isExotic');
+		var exotic = false;
+		var amt;
+		
 		$('#complex').click(function() {
 			complexInfuse();
 		});
 
 		function complexInfuse() {
+			amt = 0.8;
+			if ( $e.is(':checked') ) 
+				amt = 0.7;
+				
 			$sr.hide();
 			$tr.hide();
 			$r.hide();
@@ -255,6 +263,7 @@ $(function() {
 		}
 
 		function inf(num1, num2) { //num1 higher num2 lower
+			console.log(amt);
 			var diff = num1 - num2;
 			var r = 0;
 
@@ -262,7 +271,7 @@ $(function() {
 				r = num2 + diff;
 			}
 			else {
-				r = Math.ceil(diff * 0.8 + num2);
+				r = Math.ceil((diff * amt) + num2);
 			}
 
 			return r;
@@ -317,14 +326,14 @@ $(function() {
 			var oT = (ghost + cls + artifact) / 3;
 
 			var r = Math.floor(wepT * wepWeight + armT * armWeight + oT * otherWeight);
-			$('#r').text(r);
+			$lr.text(r);
 		}
 
 		$(document).on('click', '.character', function() {
 			$('#lightCalc').hide();
 			$('#charload').show();
 			$.post('controls/post.php?type=2', { 'acct' : acct, 'gt' : gt});
-			$r.html($(this).attr('data-ll'));
+			$lr.html($(this).attr('data-ll'));
 			$('#sel-class').text($(this).attr('data-cls'));
 			$('.character.selected').removeClass('selected');
 			$(this).addClass('selected');
